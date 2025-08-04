@@ -82,16 +82,15 @@ Add these to your Backend service:
 ```bash
 NODE_ENV=production
 PORT=5000
-DB_HOST=<from-postgres-service>
-DB_PORT=5432
-DB_NAME=inventory_management
-DB_USER=<from-postgres-service>
-DB_PASSWORD=<from-postgres-service>
 JWT_SECRET=your-super-secret-jwt-key-change-this
 JWT_EXPIRES_IN=24h
 CORS_ORIGIN=<your-frontend-url>
 LOG_LEVEL=info
 BCRYPT_ROUNDS=12
+
+# Database Configuration (Railway will provide DATABASE_URL automatically)
+# DATABASE_URL=postgresql://username:password@host:port/database
+# No need to set DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD manually
 ```
 
 #### **Frontend Service Variables**
@@ -102,35 +101,29 @@ VITE_API_URL=<your-backend-url>
 NODE_ENV=production
 ```
 
-### **Step 5: Get Database Connection Details**
-
-1. **Go to PostgreSQL Service**
-2. **Click "Connect" tab**
-3. **Copy these values:**
-   - `DB_HOST` (usually `containers-us-west-XX.railway.app`)
-   - `DB_PORT` (usually `5432`)
-   - `DB_USER` (from connection string)
-   - `DB_PASSWORD` (from connection string)
-
-### **Step 6: Update Environment Variables**
+### **Step 5: Configure Environment Variables**
 
 1. **Backend Service → Variables tab**
-2. **Add/Update these variables:**
+2. **Add these variables:**
    ```
-   DB_HOST=<copied-from-postgres>
-   DB_USER=<copied-from-postgres>
-   DB_PASSWORD=<copied-from-postgres>
-   CORS_ORIGIN=https://your-frontend-url.railway.app
+   NODE_ENV=production
+   PORT=5000
    JWT_SECRET=your-super-secret-jwt-key-change-this
+   JWT_EXPIRES_IN=24h
+   CORS_ORIGIN=https://your-frontend-url.railway.app
+   LOG_LEVEL=info
+   BCRYPT_ROUNDS=12
    ```
+   **Note**: Railway automatically provides `DATABASE_URL` - no need to set it manually
 
 3. **Frontend Service → Variables tab**
-4. **Add/Update these variables:**
+4. **Add these variables:**
    ```
    VITE_API_URL=https://your-backend-url.railway.app
+   NODE_ENV=production
    ```
 
-### **Step 7: Deploy and Test**
+### **Step 6: Deploy and Test**
 
 1. **Railway will automatically deploy** when you:
    - Push changes to GitHub
@@ -179,10 +172,12 @@ curl -X POST https://your-backend-url.railway.app/api/v1/auth/login \
 - Check for TypeScript compilation errors
 
 ### **Database Connection Issues**
-- Verify database environment variables
-- Check PostgreSQL service is running
-- Ensure SSL configuration is correct
-- Test database connection manually
+- **Railway automatically provides DATABASE_URL** - no need to set individual DB_* variables
+- Check PostgreSQL service is running and healthy
+- Ensure SSL configuration is correct (Railway requires SSL)
+- Verify the backend can parse the DATABASE_URL correctly
+- Check logs for connection details and errors
+- Test database connection manually using Railway's connection details
 
 ### **CORS Errors**
 - Update CORS_ORIGIN with correct frontend URL
