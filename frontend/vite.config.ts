@@ -10,5 +10,17 @@ export default defineConfig({
     watch: {
       usePolling: true
     }
+  },
+  preview: {
+    host: '0.0.0.0',
+    port: 4173,
+    allowedHosts: [
+      'localhost',
+      '127.0.0.1',
+      '0.0.0.0',
+      '.railway.app',
+      '.up.railway.app',
+      'inventory-management-system-production-5812.up.railway.app'
+    ]
   }
 })
