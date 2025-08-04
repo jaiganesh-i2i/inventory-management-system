@@ -1,7 +1,7 @@
 services:
   # Backend Service
   - type: web
-    plan: free
+    plan: starter
     name: inventory-backend
     runtime: docker
     envVars:
@@ -24,7 +24,7 @@ services:
 
   # Frontend Service
   - type: web
-    plan: free
+    plan: starter
     name: inventory-frontend
     runtime: static
     buildCommand: npm run build
@@ -35,4 +35,4 @@ services:
 
 databases:
   - name: inventory-database
-    plan: free 
+    plan: starter 
