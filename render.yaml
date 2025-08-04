@@ -1,14 +1,9 @@
 services:
-  # PostgreSQL Database Service
-  - type: pserv
-    name: inventory-database
-    plan: free
-
   # Backend Service
   - type: web
     name: inventory-backend
-    env: docker
     plan: free
+    runtime: docker
     sourceDir: backend
     envVars:
       - key: NODE_ENV
@@ -23,18 +18,24 @@ services:
         value: 12
       - key: LOG_LEVEL
         value: info
-    serviceLinks:
-      - name: inventory-database
-        alias: DATABASE_URL
+      - key: DATABASE_URL
+        fromDatabase:
+          name: inventory-database
+          property: connectionString
 
   # Frontend Service
   - type: web
     name: inventory-frontend
-    env: static
     plan: free
+    runtime: static
     sourceDir: frontend
     buildCommand: npm run build
     staticPublishPath: dist
     envVars:
       - key: NODE_ENV
-        value: production 
+        value: production
+
+databases:
+  # PostgreSQL Database
+  - name: inventory-database
+    plan: free 
