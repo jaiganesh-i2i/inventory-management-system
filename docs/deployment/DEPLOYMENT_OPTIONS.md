@@ -11,22 +11,17 @@ Your inventory management system is **100% ready for deployment** to any cloud p
 - **Cons**: Limited free tier
 - **Best for**: Quick deployment, small to medium projects
 
-### **2. Render.com** ⭐ **Great Alternative**
-- **Pros**: Free tier available, PostgreSQL included, easy setup
-- **Cons**: Slower cold starts on free tier
-- **Best for**: Budget-friendly deployment
-
-### **3. Heroku** ⭐ **Classic Choice**
+### **2. Heroku** ⭐ **Classic Choice**
 - **Pros**: Mature platform, excellent documentation, add-ons
 - **Cons**: No free tier anymore, can be expensive
 - **Best for**: Production applications with budget
 
-### **4. DigitalOcean App Platform**
+### **3. DigitalOcean App Platform**
 - **Pros**: Good performance, reasonable pricing, simple setup
 - **Cons**: Limited free tier
 - **Best for**: Performance-focused applications
 
-### **5. AWS (ECS/Fargate)**
+### **4. AWS (ECS/Fargate)**
 - **Pros**: Highly scalable, full control, enterprise features
 - **Cons**: Complex setup, requires AWS knowledge
 - **Best for**: Enterprise applications, high scalability needs
@@ -140,25 +135,7 @@ git push origin main
 2. **Frontend Service**: Add `VITE_API_URL` pointing to backend URL
 3. **Update CORS**: Set `CORS_ORIGIN` to frontend URL
 
-## 🌐 **Alternative: Render Deployment**
 
-### **Step 1: Backend Service**
-1. Go to [Render.com](https://render.com)
-2. Create new "Web Service"
-3. Connect GitHub repository
-4. Set **Root Directory**: `/backend`
-5. Set **Build Command**: `npm run build`
-6. Set **Start Command**: `npm start`
-
-### **Step 2: PostgreSQL Database**
-1. Create new "PostgreSQL" service
-2. Copy connection details to backend environment variables
-
-### **Step 3: Frontend Service**
-1. Create new "Static Site"
-2. Set **Root Directory**: `/frontend`
-3. Set **Build Command**: `npm run build`
-4. Set **Publish Directory**: `dist`
 
 ## 🔧 **Alternative: Heroku Deployment**
 
@@ -253,7 +230,6 @@ curl -X POST https://your-backend-url/api/v1/auth/login \
 | Platform | Free Tier | Paid Plans | Database | Best For |
 |----------|-----------|------------|----------|----------|
 | **Railway** | Limited | $5-20/month | Included | Quick deployment |
-| **Render** | Available | $7-25/month | Included | Budget-friendly |
 | **Heroku** | None | $7-25/month | Add-on | Classic choice |
 | **DigitalOcean** | Limited | $5-12/month | Add-on | Performance |
 | **AWS** | Complex | Pay-per-use | RDS | Enterprise |
@@ -266,7 +242,7 @@ curl -X POST https://your-backend-url/api/v1/auth/login \
 - PostgreSQL included
 - Good for small to medium projects
 
-### **For Budget-Friendly**: Render.com
+### **For Budget-Friendly**: Railway.com
 - Free tier available
 - PostgreSQL included
 - Good performance

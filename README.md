@@ -187,23 +187,63 @@ JWT_EXPIRES_IN=24h
 BCRYPT_ROUNDS=12
 ```
 
-## 🐳 Docker Deployment
+## 🐳 Docker Development
 
-### Development
+### Production Setup (Full Stack)
 ```bash
-npm run docker:dev
+# Build and start all services (production)
+npm run docker:build
+npm run docker:up
+
+# Stop all services
+npm run docker:down
+
+# View logs
+npm run docker:logs
 ```
 
-### Production
+### Development Setup (Full Stack with Hot Reload)
 ```bash
-npm run docker:prod
+# Build and start all services (development)
+npm run docker:dev:build
+npm run docker:dev
+
+# Stop development services
+npm run docker:dev:down
+
+# View development logs
+npm run docker:dev:logs
+```
+
+### Database Only (Local Development)
+```bash
+# Start PostgreSQL database only
+docker compose up -d db
+
+# Stop database
+docker compose down
 ```
 
 ### Services
 - **Frontend**: http://localhost:3000
 - **Backend API**: http://localhost:5000
 - **PostgreSQL**: localhost:5432
-- **pgAdmin**: http://localhost:5050
+  - Database: `inventory_management`
+  - User: `inventory_user`
+  - Password: `inventory_pass`
+
+### Local Development (Without Docker)
+```bash
+# Backend (in backend directory)
+cd backend
+npm install
+npm run dev
+
+# Frontend (in frontend directory)
+cd frontend
+npm install
+npm run dev
+```
 
 ## 📚 API Documentation
 
@@ -236,7 +276,7 @@ cd backend && npm run test
 
 ## 📦 Deployment
 
-### Render (Recommended)
+### Railway (Recommended)
 - ✅ **Automatic PostgreSQL database creation**
 - ✅ **Docker support**
 - ✅ **Free tier available**
@@ -244,12 +284,12 @@ cd backend && npm run test
 - ✅ **Built-in SSL certificates**
 
 **Quick Deploy:**
-1. Push `render.yaml` to GitHub
-2. Create Render account
+1. Connect GitHub repository to Railway
+2. Create Railway account
 3. Deploy using Blueprint
 4. Configure environment variables
 
-**See:** [RENDER_DEPLOYMENT_GUIDE.md](RENDER_DEPLOYMENT_GUIDE.md)
+**See:** [docs/deployment/DEPLOYMENT_GUIDE.md](docs/deployment/DEPLOYMENT_GUIDE.md)
 
 ### Other Platforms
 - **Heroku** - Mature platform, PostgreSQL add-on
@@ -282,8 +322,8 @@ For support and questions:
 - ✅ Frontend React application
 - ✅ PostgreSQL database with migrations
 - ✅ Docker configuration
-- ✅ Render deployment ready
+- ✅ Railway deployment ready
 
 **Documentation:**
-- [RENDER_DEPLOYMENT_GUIDE.md](RENDER_DEPLOYMENT_GUIDE.md) - Complete deployment guide
+- [docs/deployment/DEPLOYMENT_GUIDE.md](docs/deployment/DEPLOYMENT_GUIDE.md) - Complete deployment guide
 - [docs/](docs/) - Architecture and API documentation 

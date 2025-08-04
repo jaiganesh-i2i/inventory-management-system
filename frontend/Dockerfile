@@ -10,7 +10,7 @@ RUN apk add --no-cache python3 make g++
 COPY package*.json ./
 
 # Install all dependencies
-RUN npm install --legacy-peer-deps
+RUN npm install --legacy-peer-deps && npm cache clean --force
 
 # Copy source code
 COPY . .
@@ -18,27 +18,22 @@ COPY . .
 # Build the application
 RUN npm run build
 
-# Production stage
+# Production stage with Nginx
 FROM nginx:alpine AS production
 
 # Copy built application from builder stage
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Copy nginx configuration
+# Copy custom nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Create non-root user for security
-RUN addgroup -g 1001 -S nginx || true
-RUN adduser -S nginx -u 1001 || true
-
-# Change ownership of the nginx directory
+# Set proper permissions for nginx
 RUN chown -R nginx:nginx /usr/share/nginx/html && \
     chown -R nginx:nginx /var/cache/nginx && \
     chown -R nginx:nginx /var/log/nginx && \
     chown -R nginx:nginx /etc/nginx/conf.d
 
-# Switch to non-root user
-USER nginx
+# Run as root but with security configurations in nginx.conf
 
 # Expose port
 EXPOSE 80

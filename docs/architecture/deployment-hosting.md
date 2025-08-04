@@ -55,19 +55,7 @@
   - Shared CPU
 - **Best For**: Full-stack applications
 
-#### **Render** (Alternative)
-- **Cost**: Free tier available
-- **Features**:
-  - Node.js support
-  - PostgreSQL database
-  - Automatic deployments
-  - Custom domains
-  - SSL certificates
-- **Limits**:
-  - 750 hours/month
-  - 512MB RAM
-  - Sleeps after 15 minutes of inactivity
-- **Best For**: Development and small production apps
+
 
 #### **Heroku** (Limited Free)
 - **Cost**: No longer free for new accounts
@@ -154,9 +142,9 @@
 - **Domain**: Custom domain with SSL
 - **Performance**: Global CDN
 
-#### **Backend**: Render
+#### **Backend**: Railway
 - **Deployment**: Automatic from Git repository
-- **Database**: External PostgreSQL (Supabase/Neon)
+- **Database**: Internal PostgreSQL (Railway DB)
 - **Domain**: Custom subdomain
 
 #### **Database**: Supabase
@@ -243,10 +231,7 @@ volumes:
 - **Deployment**: Dockerfile or docker-compose.yml
 - **Benefits**: Same platform for all services
 
-#### **Render with Docker**
-- **Support**: Docker containers
-- **Deployment**: Dockerfile-based
-- **Limits**: Free tier constraints
+
 
 #### **Fly.io** (Alternative)
 - **Cost**: Free tier available
@@ -334,7 +319,7 @@ git push origin main
 railway up
 ```
 
-### 5.2 Alternative: Vercel + Render Deployment
+### 5.2 Alternative: Vercel + Railway Deployment
 
 #### **Frontend (Vercel)**
 ```bash
@@ -346,8 +331,8 @@ cd frontend
 vercel --prod
 ```
 
-#### **Backend (Render)**
-1. **Connect Repository** to Render
+#### **Backend (Railway)**
+1. **Connect Repository** to Railway
 2. **Configure Build Command**: `npm install && npm run build`
 3. **Configure Start Command**: `npm start`
 4. **Set Environment Variables**

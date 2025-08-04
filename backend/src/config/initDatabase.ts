@@ -27,6 +27,18 @@ export const initializeDatabase = async (): Promise<void> => {
 
     logger.info('Starting database initialization...');
 
+    // Check if database is already initialized by looking for users table
+    try {
+      const result = await query('SELECT COUNT(*) FROM users');
+      const userCount = parseInt(result.rows[0].count);
+      if (userCount > 0) {
+        logger.info(`Database already initialized with ${userCount} users. Skipping migrations.`);
+        return;
+      }
+    } catch (error) {
+      logger.info('Users table not found, proceeding with initialization...');
+    }
+
     // Execute migrations in order
     const migrations = [
       '001_initial_schema.sql',

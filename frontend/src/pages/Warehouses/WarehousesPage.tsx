@@ -2,51 +2,51 @@ import React from 'react';
 import { Box, Typography, Paper } from '@mui/material';
 import { CanCreate, CanUpdate, CanDelete } from '../../components/Auth/PermissionGuard';
 
-export default function InventoryPage() {
+export default function WarehousesPage() {
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h4" gutterBottom>
-        Inventory Management
+        Warehouses Management
       </Typography>
       
       <Paper sx={{ p: 2, mb: 2 }}>
         <Typography variant="h6" gutterBottom>
-          Current Inventory
+          Warehouse Locations
         </Typography>
         <Typography variant="body1">
-          View and manage your inventory levels across all warehouses.
+          Manage warehouse locations and their capacities.
         </Typography>
       </Paper>
 
-      <CanCreate resource="inventory">
+      <CanCreate resource="warehouses">
         <Paper sx={{ p: 2, mb: 2, backgroundColor: '#e3f2fd' }}>
           <Typography variant="h6" gutterBottom>
-            Add New Inventory Item
+            Add New Warehouse
           </Typography>
           <Typography variant="body2">
-            You have permission to create new inventory items.
+            You have permission to create new warehouses.
           </Typography>
         </Paper>
       </CanCreate>
 
-      <CanUpdate resource="inventory">
+      <CanUpdate resource="warehouses">
         <Paper sx={{ p: 2, mb: 2, backgroundColor: '#fff3e0' }}>
           <Typography variant="h6" gutterBottom>
-            Update Inventory
+            Edit Warehouses
           </Typography>
           <Typography variant="body2">
-            You have permission to update inventory levels.
+            You have permission to update warehouse information.
           </Typography>
         </Paper>
       </CanUpdate>
 
-      <CanDelete resource="inventory">
+      <CanDelete resource="warehouses">
         <Paper sx={{ p: 2, mb: 2, backgroundColor: '#ffebee' }}>
           <Typography variant="h6" gutterBottom>
-            Delete Inventory Items
+            Delete Warehouses
           </Typography>
           <Typography variant="body2">
-            You have permission to delete inventory items.
+            You have permission to delete warehouses.
           </Typography>
         </Paper>
       </CanDelete>

@@ -38,6 +38,7 @@ import type { Product, Category } from '../../types';
 import apiService from '../../services/api';
 import ProductForm from './ProductForm';
 import ProductDetails from './ProductDetails';
+import { CanCreate, CanUpdate, CanDelete } from '../../components/Auth/PermissionGuard';
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -199,13 +200,15 @@ export default function ProductsPage() {
     <Box>
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
         <Typography variant="h4">Products Management</Typography>
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={() => setOpenCreateDialog(true)}
-        >
-          Add Product
-        </Button>
+        <CanCreate resource="products">
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={() => setOpenCreateDialog(true)}
+          >
+            Add Product
+          </Button>
+        </CanCreate>
       </Box>
 
       {error && (
@@ -293,30 +296,34 @@ export default function ProductsPage() {
                   <TableCell align="right">${(product.price || 0).toFixed(2)}</TableCell>
                   <TableCell align="right">${(product.cost || 0).toFixed(2)}</TableCell>
                   <TableCell>{getStatusChip(product.is_active)}</TableCell>
-                  <TableCell align="center">
-                    <IconButton
-                      size="small"
-                      onClick={() => handleViewProduct(product)}
-                      title="View Details"
-                    >
-                      <ViewIcon />
-                    </IconButton>
-                    <IconButton
-                      size="small"
-                      onClick={() => handleEditProduct(product)}
-                      title="Edit Product"
-                    >
-                      <EditIcon />
-                    </IconButton>
-                    <IconButton
-                      size="small"
-                      onClick={() => handleDeleteClick(product)}
-                      title="Delete Product"
-                      color="error"
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </TableCell>
+                                     <TableCell align="center">
+                     <IconButton
+                       size="small"
+                       onClick={() => handleViewProduct(product)}
+                       title="View Details"
+                     >
+                       <ViewIcon />
+                     </IconButton>
+                     <CanUpdate resource="products">
+                       <IconButton
+                         size="small"
+                         onClick={() => handleEditProduct(product)}
+                         title="Edit Product"
+                       >
+                         <EditIcon />
+                       </IconButton>
+                     </CanUpdate>
+                     <CanDelete resource="products">
+                       <IconButton
+                         size="small"
+                         onClick={() => handleDeleteClick(product)}
+                         title="Delete Product"
+                         color="error"
+                       >
+                         <DeleteIcon />
+                       </IconButton>
+                     </CanDelete>
+                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>

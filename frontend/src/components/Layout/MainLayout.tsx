@@ -17,6 +17,7 @@ import {
   MenuItem,
   Divider,
   Badge,
+  Chip,
 } from '@mui/material';
 import {
   Menu as MenuIcon,
@@ -30,9 +31,18 @@ import {
   Logout,
   Settings,
   Receipt,
+  Assessment,
+  Warning,
 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { 
+  MenuItem as MenuItemType, 
+  filterMenuItems, 
+  getUserDisplayName, 
+  getRoleDisplayName, 
+  getRoleColor 
+} from '../../utils/roles';
 
 const drawerWidth = 240;
 
@@ -40,14 +50,61 @@ interface MainLayoutProps {
   children: React.ReactNode;
 }
 
-const menuItems = [
-  { text: 'Dashboard', icon: <Dashboard />, path: '/dashboard' },
-  { text: 'Inventory', icon: <Inventory />, path: '/inventory' },
-  { text: 'Products', icon: <Inventory />, path: '/products' },
-  { text: 'Transactions', icon: <Receipt />, path: '/transactions' },
-  { text: 'Categories', icon: <Category />, path: '/categories' },
-  { text: 'Warehouses', icon: <Warehouse />, path: '/warehouses' },
-  { text: 'Users', icon: <People />, path: '/users' },
+const menuItems: MenuItemType[] = [
+  { 
+    text: 'Dashboard', 
+    icon: <Dashboard />, 
+    path: '/dashboard',
+    requiredPermission: { resource: 'dashboard', action: 'read' }
+  },
+  { 
+    text: 'Inventory', 
+    icon: <Inventory />, 
+    path: '/inventory',
+    requiredPermission: { resource: 'inventory', action: 'read' }
+  },
+  { 
+    text: 'Products', 
+    icon: <Inventory />, 
+    path: '/products',
+    requiredPermission: { resource: 'products', action: 'read' }
+  },
+  { 
+    text: 'Transactions', 
+    icon: <Receipt />, 
+    path: '/transactions',
+    requiredPermission: { resource: 'transactions', action: 'read' }
+  },
+  { 
+    text: 'Categories', 
+    icon: <Category />, 
+    path: '/categories',
+    requiredPermission: { resource: 'categories', action: 'read' }
+  },
+  { 
+    text: 'Warehouses', 
+    icon: <Warehouse />, 
+    path: '/warehouses',
+    requiredPermission: { resource: 'warehouses', action: 'read' }
+  },
+  { 
+    text: 'Reports', 
+    icon: <Assessment />, 
+    path: '/reports',
+    requiredPermission: { resource: 'reports', action: 'read' }
+  },
+  { 
+    text: 'Alerts', 
+    icon: <Warning />, 
+    path: '/alerts',
+    requiredPermission: { resource: 'alerts', action: 'read' }
+  },
+  { 
+    text: 'Users', 
+    icon: <People />, 
+    path: '/users',
+    requiredPermission: { resource: 'users', action: 'read' }
+  },
 ];
 
 export default function MainLayout({ children }: MainLayoutProps) {
@@ -58,6 +115,9 @@ export default function MainLayout({ children }: MainLayoutProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, logout } = useAuth();
+
+  // Filter menu items based on user permissions
+  const filteredMenuItems = filterMenuItems(menuItems, user);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -93,7 +153,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
       </Toolbar>
       <Divider />
       <List>
-        {menuItems.map((item) => (
+        {filteredMenuItems.map((item) => (
           <ListItem key={item.text} disablePadding>
             <ListItemButton
               selected={location.pathname === item.path}
@@ -132,8 +192,24 @@ export default function MainLayout({ children }: MainLayoutProps) {
           </IconButton>
           
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-            {menuItems.find(item => item.path === location.pathname)?.text || 'Inventory Management'}
+            {filteredMenuItems.find(item => item.path === location.pathname)?.text || 'Inventory Management'}
           </Typography>
+
+          {/* User Info */}
+          <Box sx={{ display: 'flex', alignItems: 'center', mr: 2 }}>
+            <Typography variant="body2" sx={{ mr: 1 }}>
+              {getUserDisplayName(user)}
+            </Typography>
+            <Chip
+              label={getRoleDisplayName(user?.role as any)}
+              size="small"
+              sx={{
+                backgroundColor: getRoleColor(user?.role as any),
+                color: 'white',
+                fontSize: '0.75rem',
+              }}
+            />
+          </Box>
 
           {/* Notifications */}
           <IconButton

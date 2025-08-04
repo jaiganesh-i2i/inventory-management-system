@@ -26,7 +26,7 @@ const getDbConfig = () => {
     database: process.env.DB_NAME || 'inventory_management',
     user: process.env.DB_USER || 'inventory_user',
     password: process.env.DB_PASSWORD || 'inventory_pass',
-    ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+    ssl: false, // Disable SSL for local Docker development
     max: 20,
     idleTimeoutMillis: 30000,
     connectionTimeoutMillis: 10000,
