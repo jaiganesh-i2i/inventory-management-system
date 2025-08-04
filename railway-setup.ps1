@@ -87,5 +87,6 @@ Write-Host "   - Test health endpoints" -ForegroundColor Cyan
 Write-Host "   - Verify admin login (admin/admin123)" -ForegroundColor Cyan
 Write-Host "   - Check all pages load correctly" -ForegroundColor Cyan
 
-Write-Host "`nFor detailed instructions, see: RAILWAY_DEPLOYMENT_GUIDE.md" -ForegroundColor Green
+Write-Host "`nFor detailed instructions, see: docs/deployment/RAILWAY_DEPLOYMENT_GUIDE.md" -ForegroundColor Green
+Write-Host "`nFor AI development documentation, see: docs/ai-development/" -ForegroundColor Cyan
 Write-Host "`nYour project is ready for Railway deployment!" -ForegroundColor Green 
