@@ -1,0 +1,41 @@
+services:
+  # PostgreSQL Database Service (Auto-created)
+  - type: pserv
+    name: inventory-database
+    plan: free
+    ipAllowList: []
+
+  # Backend Service
+  - type: web
+    name: inventory-backend
+    env: docker
+    plan: free
+    sourceDir: backend
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 24h
+      - key: BCRYPT_ROUNDS
+        value: 12
+      - key: LOG_LEVEL
+        value: info
+    serviceLink:
+      - name: inventory-database
+        alias: DATABASE_URL
+
+  # Frontend Service
+  - type: web
+    name: inventory-frontend
+    env: static
+    plan: free
+    sourceDir: frontend
+    buildCommand: npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: NODE_ENV
+        value: production 
