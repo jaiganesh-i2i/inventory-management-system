@@ -104,8 +104,8 @@ export default function UsersPage() {
       const response = await apiService.getUsers(params);
       
       if (response.success && response.data) {
-        setUsers(response.data.data);
-        calculateSummaryStats(response.data.data);
+        setUsers(response.data);
+        calculateSummaryStats(response.data);
       } else {
         setError(response.error || 'Failed to load users');
       }
@@ -357,7 +357,7 @@ export default function UsersPage() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {users.map((user) => (
+              {(users || []).map((user) => (
                 <TableRow key={user.id} hover>
                   <TableCell>
                     <Box display="flex" alignItems="center" gap={2}>

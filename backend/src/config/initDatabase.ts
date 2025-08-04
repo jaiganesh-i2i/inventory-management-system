@@ -18,8 +18,9 @@ const executeSqlFile = async (filePath: string): Promise<void> => {
 // Initialize database schema
 export const initializeDatabase = async (): Promise<void> => {
   try {
-    // Test connection first
-    const isConnected = await testConnection();
+    // Initialize the database connection pool first
+    const { initializeDatabase: initDB } = await import('./database');
+    const isConnected = await initDB();
     if (!isConnected) {
       throw new Error('Database connection failed');
     }

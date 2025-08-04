@@ -30,8 +30,8 @@
     "@types/node": "^20.10.5",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
-    "@typescript-eslint/eslint-plugin": "^6.14.0",
-    "@typescript-eslint/parser": "^6.14.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
     "@vitejs/plugin-react": "^4.2.1",
     "eslint": "^8.55.0",
     "eslint-config-prettier": "^9.1.0",
@@ -41,6 +41,7 @@
     "eslint-plugin-react-refresh": "^0.4.5",
     "prettier": "^3.1.1",
     "typescript": "^5.2.2",
-    "vite": "^5.0.8"
+    "vite": "^5.0.8",
+    "esbuild": "0.25.8"
   }
 }

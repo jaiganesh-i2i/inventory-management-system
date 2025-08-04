@@ -85,7 +85,7 @@ export default function ProductsPage() {
       const response = await apiService.getProducts(params);
       
       if (response.success && response.data) {
-        setProducts(response.data.data);
+        setProducts(response.data);
       } else {
         setError(response.error || 'Failed to load products');
       }
@@ -100,7 +100,7 @@ export default function ProductsPage() {
     try {
       const response = await apiService.getCategories({ limit: 100 });
       if (response.success && response.data) {
-        setCategories(response.data.data);
+        setCategories(response.data);
       }
     } catch (error) {
       console.error('Failed to load categories:', error);
@@ -239,7 +239,7 @@ export default function ProductsPage() {
               onChange={(e) => setCategoryFilter(e.target.value as number | '')}
             >
               <MenuItem value="">All Categories</MenuItem>
-              {categories.map((category) => (
+              {(categories || []).map((category) => (
                 <MenuItem key={category.id} value={category.id}>
                   {category.name}
                 </MenuItem>
@@ -278,7 +278,7 @@ export default function ProductsPage() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {products.map((product) => (
+              {(products || []).map((product) => (
                 <TableRow key={product.id} hover>
                   <TableCell>
                     <Typography variant="subtitle2">{product.name}</Typography>
@@ -290,8 +290,8 @@ export default function ProductsPage() {
                   </TableCell>
                   <TableCell>{product.sku}</TableCell>
                   <TableCell>{getCategoryName(product.category_id)}</TableCell>
-                  <TableCell align="right">${product.price.toFixed(2)}</TableCell>
-                  <TableCell align="right">${product.cost.toFixed(2)}</TableCell>
+                  <TableCell align="right">${(product.price || 0).toFixed(2)}</TableCell>
+                  <TableCell align="right">${(product.cost || 0).toFixed(2)}</TableCell>
                   <TableCell>{getStatusChip(product.is_active)}</TableCell>
                   <TableCell align="center">
                     <IconButton

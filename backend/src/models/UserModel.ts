@@ -183,7 +183,7 @@ export class UserModel {
       [id]
     );
     
-    return result.rowCount > 0;
+    return (result.rowCount ?? 0) > 0;
   }
 
   /**
@@ -195,7 +195,7 @@ export class UserModel {
       [id]
     );
     
-    return result.rowCount > 0;
+    return (result.rowCount ?? 0) > 0;
   }
 
   /**
@@ -217,7 +217,7 @@ export class UserModel {
       [password_hash, id]
     );
     
-    return result.rowCount > 0;
+    return (result.rowCount ?? 0) > 0;
   }
 
   /**

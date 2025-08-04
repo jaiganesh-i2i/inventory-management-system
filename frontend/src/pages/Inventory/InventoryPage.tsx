@@ -105,8 +105,8 @@ export default function InventoryPage() {
       const response = await apiService.getInventory(params);
       
       if (response.success && response.data) {
-        setInventory(response.data.data);
-        calculateSummaryStats(response.data.data);
+        setInventory(response.data);
+        calculateSummaryStats(response.data);
       } else {
         setError(response.error || 'Failed to load inventory');
       }
@@ -121,7 +121,7 @@ export default function InventoryPage() {
     try {
       const response = await apiService.getWarehouses({ limit: 100 });
       if (response.success && response.data) {
-        setWarehouses(response.data.data);
+        setWarehouses(response.data);
       }
     } catch (error) {
       console.error('Failed to load warehouses:', error);
@@ -319,7 +319,7 @@ export default function InventoryPage() {
               onChange={(e) => setWarehouseFilter(e.target.value as number | '')}
             >
               <MenuItem value="">All Warehouses</MenuItem>
-              {warehouses.map((warehouse) => (
+                              {(warehouses || []).map((warehouse) => (
                 <MenuItem key={warehouse.id} value={warehouse.id}>
                   {warehouse.name}
                 </MenuItem>
@@ -359,7 +359,7 @@ export default function InventoryPage() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {inventory.map((item) => (
+              {(inventory || []).map((item) => (
                 <TableRow key={item.id} hover>
                   <TableCell>
                     <Box>

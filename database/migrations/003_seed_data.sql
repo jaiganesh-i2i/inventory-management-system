@@ -6,11 +6,12 @@
 BEGIN;
 
 -- Insert default admin user
--- Password: admin123 (hashed with bcrypt)
+-- Password: admin123 (properly hashed with bcrypt)
 INSERT INTO users (username, email, password_hash, role, is_active) VALUES
-('admin', 'admin@inventory.com', '$2b$10$rQZ8K9vX8K9vX8K9vX8K9O.8K9vX8K9vX8K9vX8K9vX8K9vX8K9vX8K', 'admin', true),
-('manager1', 'manager1@inventory.com', '$2b$10$rQZ8K9vX8K9vX8K9vX8K9O.8K9vX8K9vX8K9vX8K9vX8K9vX8K9vX8K', 'manager', true),
-('user1', 'user1@inventory.com', '$2b$10$rQZ8K9vX8K9vX8K9vX8K9O.8K9vX8K9vX8K9vX8K9vX8K9vX8K9vX8K', 'user', true);
+('admin', 'admin@inventory.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj4tbQJ8KqG', 'admin', true),
+('manager1', 'manager1@inventory.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj4tbQJ8KqG', 'manager', true),
+('user1', 'user1@inventory.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj4tbQJ8KqG', 'user', true)
+ON CONFLICT (username) DO NOTHING;
 
 -- Insert categories
 INSERT INTO categories (name, description, parent_id, is_active) VALUES

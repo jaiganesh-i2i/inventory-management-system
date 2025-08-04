@@ -1,0 +1,189 @@
+---
+alwaysApply: false
+---
+Inventory Management System
+Business Context: An e-commerce business needs to track inventory across multiple warehouses
+
+Core Requirements:
+
+Product Catalog: Manage products with categories and specifications
+Inventory Tracking: Real-time stock levels across locations
+Purchase Orders: Create and manage supplier orders
+Stock Alerts: Low inventory warnings and reorder notifications
+Reporting Dashboard: Inventory turnover, stock valuation, trends
+
+Technical Stack: React frontend, Node.js backend, PostgreSQL database
+
+Day 1 - Foundation & Core Features
+Phase 1: Project Setup & Planning
+Required Steps:
+Project Architecture Design
+Use AI to design system architecture
+Define database schema with AI assistance
+Plan API endpoints and data flow
+Environment Setup
+Initialize project structure with AI
+Configure development environment
+Set up database and basic connectivity
+Project Planning
+Break features into development phases
+Prioritize core vs. nice-to-have features
+Documentation Required:
+Architecture diagram (AI-generated)
+Database schema design
+Development plan with time allocation
+Phase 2: Backend Development
+Required Steps:
+Database Models
+Design and implement data models
+Set up relationships and constraints
+Create seed data for testing
+API Development
+Implement core CRUD operations
+Add authentication/authorization
+Implement business logic endpoints
+Testing & Validation
+Create API tests with AI assistance
+Test all endpoints with sample data
+Validate error handling
+Documentation Required:
+API documentation (AI-generated)
+Testing strategy and results
+Phase 3: Frontend Foundation
+Required Steps:
+UI Framework Setup
+Initialize frontend project
+Configure routing and state management
+Set up UI component library
+Core Components
+Create the main layout and navigation
+Implement authentication forms
+Build primary data entry forms
+API Integration
+Connect frontend to backend APIs
+Implement data fetching and updates
+Handle loading states and errors
+Documentation Required:
+Component architecture
+State management approach
+Integration testing results
+Day 2: Advanced Features & Polish
+Phase 4: Advanced Features
+Required Steps:
+Business Logic Implementation
+Implement workflow logic (e.g., sales pipeline stages)
+Add validation and business rules
+Create automated processes (notifications, alerts)
+Dashboard & Reporting
+Build an analytics dashboard
+Implement data visualization
+Create summary reports
+User Experience Enhancement
+Improve UI/UX with AI suggestions
+Add responsive design
+Implement accessibility features
+Phase 5: Security & Performance
+Required Steps:
+Security Implementation
+Input validation and sanitization
+Authentication security hardening
+Data access control
+Performance Optimization
+Database query optimization
+Frontend performance improvements
+Caching implementation
+Phase 6: Deployment & Documentation
+Required Steps:
+Deployment Setup
+Configure the production environment
+Deploy application (Vercel, Netlify, AWS)
+Set up monitoring and logging
+Final Documentation
+Create an user guide
+Document deployment process
+Compile AI prompt library
+
+📝 Required Documentation & Submissions
+1. Application Deliverables
+Live Application URL: Deployed and accessible application
+GitHub Repository: Complete source code with clear README
+Demo Video: 5-minute walkthrough of key features
+Admin Credentials: For evaluator access
+2. Development Process Documentation
+
+markdown
+# Development Process Report
+
+## Project Overview
+-**Project Chosen**: [CRM/Project Management/Inventory/HR]
+-**Technology Stack**: [Detailed tech choices]
+-**Development Timeline**: [Actual time spent per phase]
+
+## AI Tool Usage Summary
+-**Cursor**: [How used, effectiveness rating 1-10]
+-**GitHub Copilot**: [Specific use cases, code generation %]
+-**AWS Q Developer**: [Security scanning, optimization suggestions]
+
+## Architecture Decisions
+-**Database Design**: [Schema choices and AI input]
+-**API Architecture**: [REST/GraphQL decisions with AI guidance]
+-**Frontend Architecture**: [Component structure, state management]
+
+## Challenges & Solutions
+-**Technical Challenges**: [Problems encountered and AI-assisted solutions]
+-**AI Limitations**: [Where AI struggled, manual intervention needed]
+-**Breakthrough Moments**: [Most effective AI assistance examples]
+
+
+3. AI Prompt Library
+
+markdown
+# AI Prompt Library
+
+## Database Design Prompts
+### Prompt 1: Schema Generation
+**Prompt**: "Design a PostgreSQL database schema for a CRM system..."
+**Context**: [What context was provided]
+**Output Quality**: [1-10 rating]
+**Iterations**: [How many refinements needed]
+**Final Result**: [What was actually implemented]
+
+## Code Generation Prompts
+### Prompt 2: API Endpoint Creation
+**Prompt**: "Create Express.js API endpoint for customer management..."
+**Context**: [Technical specifications provided]
+**Output Quality**: [1-10 rating]
+**Modifications**: [What changes were needed]
+
+## Problem-Solving Prompts
+### Prompt 3: Performance Optimization
+**Prompt**: "Optimize this React component for large datasets..."
+**Context**: [Performance requirements, constraints]
+**Effectiveness**: [Impact on application performance]
+
+
+4. Reflection Report
+
+markdown
+# Learning & Reflection Report
+
+## AI Development Skills Applied
+-**Prompt Engineering**: [Most effective techniques used]
+-**Tool Orchestration**: [How different AI tools complemented each other]
+-**Quality Validation**: [Process for validating AI output]
+
+## Business Value Delivered
+-**Functional Requirements**: [Percentage completed, trade-offs made]
+-**User Experience**: [How AI helped improve UX]
+-**Code Quality**: [Security, performance, maintainability achieved]
+
+## Key Learnings
+-**Most Valuable AI Technique**: [What worked best]
+-**Biggest Challenge**: [Where AI struggled or failed]
+-**Process Improvements**: [What would you do differently]
+-**Knowledge Gained**: [New skills or insights developed]
+
+## Future Application
+-**Team Integration**: [How you'd share these techniques]
+-**Process Enhancement**: [Improvements for team AI adoption]
+-**Scaling Considerations**: [Enterprise application of learned techniques]

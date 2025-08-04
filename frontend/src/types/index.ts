@@ -29,8 +29,8 @@ export interface Product {
   name: string;
   sku: string;
   description?: string;
-  price: number;
-  cost: number;
+  price?: number;
+  cost?: number;
   category_id: number;
   is_active: boolean;
   created_at: string;
@@ -41,8 +41,8 @@ export interface CreateProductInput {
   name: string;
   sku: string;
   description?: string;
-  price: number;
-  cost: number;
+  price?: number;
+  cost?: number;
   category_id: number;
 }
 
@@ -189,15 +189,15 @@ export interface AlertThreshold {
 
 // Dashboard types
 export interface DashboardOverview {
-  total_products: number;
-  total_warehouses: number;
-  total_inventory_value: number;
-  low_stock_items: number;
-  out_of_stock_items: number;
-  total_transactions: number;
-  pending_alerts: number;
-  critical_alerts: number;
-  recent_activity: ActivityItem[];
+  totalProducts: number;
+  totalWarehouses: number;
+  totalInventoryValue: number;
+  lowStockItems: number;
+  outOfStockItems: number;
+  totalTransactions: number;
+  pendingAlerts: number;
+  criticalAlerts: number;
+  recentActivity: ActivityItem[];
 }
 
 export interface ActivityItem {

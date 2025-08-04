@@ -20,9 +20,9 @@ export interface JWTPayload {
 }
 
 export interface TokenPair {
-  accessToken: string;
-  refreshToken: string;
-  expiresIn: number;
+  access_token: string;
+  refresh_token: string;
+  expires_in: number;
 }
 
 /**
@@ -88,9 +88,9 @@ export const generateTokenPair = (payload: Omit<JWTPayload, 'iat' | 'exp'>): Tok
   const expiresIn = parseInt(JWT_EXPIRES_IN.replace('h', '')) * 3600;
   
   return {
-    accessToken,
-    refreshToken,
-    expiresIn
+    access_token: accessToken,
+    refresh_token: refreshToken,
+    expires_in: expiresIn
   };
 };
 

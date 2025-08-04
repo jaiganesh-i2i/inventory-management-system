@@ -67,7 +67,7 @@ export default function InventoryTransactionForm({ inventory, onSubmit, onCancel
     try {
       const response = await apiService.getProducts({ limit: 100 });
       if (response.success && response.data) {
-        setProducts(response.data.data);
+        setProducts(response.data);
       }
     } catch (error) {
       console.error('Failed to load products:', error);
@@ -78,7 +78,7 @@ export default function InventoryTransactionForm({ inventory, onSubmit, onCancel
     try {
       const response = await apiService.getWarehouses({ limit: 100 });
       if (response.success && response.data) {
-        setWarehouses(response.data.data);
+        setWarehouses(response.data);
       }
     } catch (error) {
       console.error('Failed to load warehouses:', error);
@@ -299,7 +299,7 @@ export default function InventoryTransactionForm({ inventory, onSubmit, onCancel
                   </InputAdornment>
                 }
               >
-                {products.map((product) => (
+                {(products || []).map((product) => (
                   <MenuItem key={product.id} value={product.id}>
                     {product.name} ({product.sku})
                   </MenuItem>
@@ -325,7 +325,7 @@ export default function InventoryTransactionForm({ inventory, onSubmit, onCancel
                   </InputAdornment>
                 }
               >
-                {warehouses.map((warehouse) => (
+                {(warehouses || []).map((warehouse) => (
                   <MenuItem key={warehouse.id} value={warehouse.id}>
                     {warehouse.name}
                   </MenuItem>

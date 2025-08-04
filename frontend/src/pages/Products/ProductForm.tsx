@@ -44,8 +44,8 @@ export default function ProductForm({ categories, product, onSubmit, onCancel }:
         name: product.name,
         sku: product.sku,
         description: product.description || '',
-        price: product.price.toString(),
-        cost: product.cost.toString(),
+        price: (product.price || 0).toString(),
+        cost: (product.cost || 0).toString(),
         category_id: product.category_id.toString(),
         is_active: product.is_active,
       });

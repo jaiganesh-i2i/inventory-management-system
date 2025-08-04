@@ -136,6 +136,12 @@ export const rateLimit = (maxRequests: number = 100, windowMs: number = 15 * 60 
   const requests = new Map<string, { count: number; resetTime: number }>();
 
   return (req: Request, res: Response, next: NextFunction): void => {
+    // Skip rate limiting in development mode
+    if (process.env.NODE_ENV === 'development') {
+      next();
+      return;
+    }
+
     const key = req.ip || 'unknown';
     const now = Date.now();
 

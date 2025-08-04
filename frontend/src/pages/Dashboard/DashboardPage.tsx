@@ -119,7 +119,7 @@ export default function DashboardPage() {
         <Grid item xs={12} sm={6} md={3}>
           <StatCard
             title="Total Products"
-            value={overview.total_products}
+            value={overview.totalProducts || 0}
             icon={<Inventory sx={{ color: 'white' }} />}
             color="#1976d2"
           />
@@ -127,7 +127,7 @@ export default function DashboardPage() {
         <Grid item xs={12} sm={6} md={3}>
           <StatCard
             title="Total Warehouses"
-            value={overview.total_warehouses}
+            value={overview.totalWarehouses || 0}
             icon={<Warehouse sx={{ color: 'white' }} />}
             color="#388e3c"
           />
@@ -135,7 +135,7 @@ export default function DashboardPage() {
         <Grid item xs={12} sm={6} md={3}>
           <StatCard
             title="Inventory Value"
-            value={`$${overview.total_inventory_value.toLocaleString()}`}
+            value={`$${(overview.totalInventoryValue || 0).toLocaleString()}`}
             icon={<AttachMoney sx={{ color: 'white' }} />}
             color="#f57c00"
           />
@@ -143,7 +143,7 @@ export default function DashboardPage() {
         <Grid item xs={12} sm={6} md={3}>
           <StatCard
             title="Low Stock Items"
-            value={overview.low_stock_items}
+            value={overview.lowStockItems || 0}
             icon={<Warning sx={{ color: 'white' }} />}
             color="#d32f2f"
           />
@@ -155,7 +155,7 @@ export default function DashboardPage() {
         <Grid item xs={12} sm={6} md={3}>
           <StatCard
             title="Out of Stock"
-            value={overview.out_of_stock_items}
+            value={overview.outOfStockItems || 0}
             icon={<Warning sx={{ color: 'white' }} />}
             color="#c62828"
           />
@@ -163,7 +163,7 @@ export default function DashboardPage() {
         <Grid item xs={12} sm={6} md={3}>
           <StatCard
             title="Total Transactions"
-            value={overview.total_transactions}
+            value={overview.totalTransactions || 0}
             icon={<TrendingUp sx={{ color: 'white' }} />}
             color="#7b1fa2"
           />
@@ -171,7 +171,7 @@ export default function DashboardPage() {
         <Grid item xs={12} sm={6} md={3}>
           <StatCard
             title="Pending Alerts"
-            value={overview.pending_alerts}
+            value={overview.pendingAlerts || 0}
             icon={<Warning sx={{ color: 'white' }} />}
             color="#f57c00"
           />
@@ -179,7 +179,7 @@ export default function DashboardPage() {
         <Grid item xs={12} sm={6} md={3}>
           <StatCard
             title="Critical Alerts"
-            value={overview.critical_alerts}
+            value={overview.criticalAlerts || 0}
             icon={<Warning sx={{ color: 'white' }} />}
             color="#d32f2f"
           />
@@ -191,9 +191,9 @@ export default function DashboardPage() {
         <Typography variant="h6" gutterBottom>
           Recent Activity
         </Typography>
-        {overview.recent_activity.length > 0 ? (
+        {(overview.recentActivity || []).length > 0 ? (
           <Box>
-            {overview.recent_activity.map((activity) => (
+            {(overview.recentActivity || []).map((activity) => (
               <Box
                 key={activity.id}
                 sx={{

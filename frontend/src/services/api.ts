@@ -1,5 +1,6 @@
-import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import {
+import axios from 'axios';
+import type { AxiosInstance, AxiosResponse } from 'axios';
+import type {
   ApiResponse,
   PaginatedResponse,
   User,
@@ -27,7 +28,7 @@ import {
   UpdateInventoryInput,
   CreateTransactionInput,
   QueryParams
-} from '../types';
+} from '../types/index';
 
 class ApiService {
   private api: AxiosInstance;
@@ -70,9 +71,11 @@ class ApiService {
             const refreshToken = localStorage.getItem('refresh_token');
             if (refreshToken) {
               const response = await this.refreshToken(refreshToken);
-              const { access_token } = response.data.tokens;
+              const { access_token } = response.data?.tokens || {};
               
-              localStorage.setItem('access_token', access_token);
+              if (access_token) {
+                localStorage.setItem('access_token', access_token);
+              }
               originalRequest.headers.Authorization = `Bearer ${access_token}`;
               
               return this.api(originalRequest);

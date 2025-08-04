@@ -106,8 +106,8 @@ export default function TransactionsPage() {
       const response = await apiService.getTransactions(params);
       
       if (response.success && response.data) {
-        setTransactions(response.data.data);
-        calculateSummaryStats(response.data.data);
+        setTransactions(response.data);
+        calculateSummaryStats(response.data);
       } else {
         setError(response.error || 'Failed to load transactions');
       }
@@ -372,7 +372,7 @@ export default function TransactionsPage() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {transactions.map((transaction) => (
+              {(transactions || []).map((transaction) => (
                 <TableRow key={transaction.id} hover>
                   <TableCell>
                     {getTransactionTypeChip(transaction.type)}

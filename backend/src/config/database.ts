@@ -11,7 +11,7 @@ const dbConfig = {
   ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
   max: 20,
   idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000,
+  connectionTimeoutMillis: 10000,
 };
 
 // Create connection pool
@@ -42,6 +42,11 @@ export const getConnection = async (): Promise<PoolClient> => {
     throw new Error('Database not initialized');
   }
   return await pool.connect();
+};
+
+// Get database client (alias for getConnection)
+export const getClient = async (): Promise<PoolClient> => {
+  return await getConnection();
 };
 
 // Test database connection
