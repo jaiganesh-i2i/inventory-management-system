@@ -1,9 +1,8 @@
 services:
-  # PostgreSQL Database Service (Auto-created)
+  # PostgreSQL Database Service
   - type: pserv
     name: inventory-database
     plan: free
-    ipAllowList: []
 
   # Backend Service
   - type: web
@@ -17,14 +16,14 @@ services:
       - key: PORT
         value: 10000
       - key: JWT_SECRET
-        generateValue: true
+        value: your-super-secret-jwt-key-change-this
       - key: JWT_EXPIRES_IN
         value: 24h
       - key: BCRYPT_ROUNDS
         value: 12
       - key: LOG_LEVEL
         value: info
-    serviceLink:
+    serviceLinks:
       - name: inventory-database
         alias: DATABASE_URL
 
