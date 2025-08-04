@@ -1,0 +1,59 @@
+{
+  "name": "inventory-management-system",
+  "version": "1.0.0",
+  "description": "Complete Inventory Management System with React Frontend and Node.js Backend",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "build": "npm run build:frontend && npm run build:backend",
+    "build:frontend": "cd frontend && npm run build",
+    "build:backend": "cd backend && npm run build",
+    "start": "npm run build && concurrently \"npm run start:frontend\" \"npm run start:backend\"",
+    "start:frontend": "cd frontend && npm run preview",
+    "start:backend": "cd backend && npm start",
+    "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install",
+    "lint": "npm run lint:frontend && npm run lint:backend",
+    "lint:frontend": "cd frontend && npm run lint",
+    "lint:backend": "cd backend && npm run lint",
+    "lint:fix": "npm run lint:fix:frontend && npm run lint:fix:backend",
+    "lint:fix:frontend": "cd frontend && npm run lint:fix",
+    "lint:fix:backend": "cd backend && npm run lint:fix",
+    "format": "npm run format:frontend && npm run format:backend",
+    "format:frontend": "cd frontend && npm run format",
+    "format:backend": "cd backend && npm run format",
+    "type-check": "npm run type-check:frontend && npm run type-check:backend",
+    "type-check:frontend": "cd frontend && npm run type-check",
+    "type-check:backend": "cd backend && npm run type-check",
+    "docker:dev": "cd docker && docker-compose -f docker-compose.dev.yml up --build",
+    "docker:prod": "cd docker && docker-compose up --build",
+    "docker:down": "cd docker && docker-compose down",
+    "clean": "npm run clean:frontend && npm run clean:backend",
+    "clean:frontend": "cd frontend && rm -rf dist node_modules",
+    "clean:backend": "cd backend && rm -rf dist node_modules"
+  },
+  "keywords": [
+    "inventory",
+    "management",
+    "react",
+    "typescript",
+    "nodejs",
+    "express",
+    "postgresql",
+    "docker"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+} 
