@@ -10,7 +10,7 @@ RUN apk add --no-cache python3 make g++
 COPY package*.json ./
 
 # Install all dependencies
-RUN npm ci
+RUN npm install --legacy-peer-deps
 
 # Copy source code
 COPY . .
@@ -28,8 +28,8 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Create non-root user for security
-RUN addgroup -g 1001 -S nginx
-RUN adduser -S nginx -u 1001
+RUN addgroup -g 1001 -S nginx || true
+RUN adduser -S nginx -u 1001 || true
 
 # Change ownership of the nginx directory
 RUN chown -R nginx:nginx /usr/share/nginx/html && \
@@ -42,6 +42,10 @@ USER nginx
 
 # Expose port
 EXPOSE 80
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:80/ || exit 1
 
 # Start nginx
 CMD ["nginx", "-g", "daemon off;"] 

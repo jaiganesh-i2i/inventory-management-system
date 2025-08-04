@@ -1,0 +1,31 @@
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "backend/Dockerfile.railway"
+
+[deploy]
+startCommand = "npm start"
+healthcheckPath = "/health"
+healthcheckTimeout = 100
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
+
+[environments.production.variables]
+NODE_ENV = "production"
+
+# Database configuration (Railway will provide these)
+DB_HOST = "${DB_HOST}"
+DB_PORT = "5432"
+DB_NAME = "inventory_management"
+DB_USER = "${DB_USER}"
+DB_PASSWORD = "${DB_PASSWORD}"
+
+# JWT Configuration
+JWT_SECRET = "${JWT_SECRET}"
+JWT_EXPIRES_IN = "24h"
+
+# CORS Configuration (will be updated after frontend deployment)
+CORS_ORIGIN = "${CORS_ORIGIN}"
+
+# Logging
+LOG_LEVEL = "info"
+BCRYPT_ROUNDS = "12" 
