@@ -553,10 +553,48 @@ export class InventoryModel {
    */
   static async exists(productId: number, warehouseId: number): Promise<boolean> {
     const result = await query(
-      'SELECT COUNT(*) FROM inventory WHERE product_id = $1 AND warehouse_id = $2',
+      'SELECT EXISTS(SELECT 1 FROM inventory WHERE product_id = $1 AND warehouse_id = $2)',
       [productId, warehouseId]
     );
     
-    return parseInt(result.rows[0].count) > 0;
+    return result.rows[0].exists;
+  }
+
+  /**
+   * Get inventory analytics data for dashboard
+   */
+  static async getInventoryAnalytics(warehouseId?: number): Promise<any[]> {
+    try {
+      let queryText = `
+        SELECT 
+          c.name as category_name,
+          COUNT(CASE WHEN i.quantity > i.min_threshold THEN 1 END) as in_stock,
+          COUNT(CASE WHEN i.quantity <= i.min_threshold AND i.quantity > 0 THEN 1 END) as low_stock,
+          COUNT(CASE WHEN i.quantity = 0 THEN 1 END) as out_of_stock,
+          COALESCE(SUM(i.quantity * p.price), 0) as total_value,
+          COALESCE(AVG(i.quantity), 0) as turnover_rate
+        FROM inventory i
+        JOIN products p ON i.product_id = p.id
+        JOIN categories c ON p.category_id = c.id
+      `;
+
+      const params: any[] = [];
+      
+      if (warehouseId) {
+        queryText += ' WHERE i.warehouse_id = $1';
+        params.push(warehouseId);
+      }
+
+      queryText += `
+        GROUP BY c.id, c.name
+        ORDER BY total_value DESC
+      `;
+
+      const result = await query(queryText, params);
+      return result.rows;
+    } catch (error) {
+      console.error('Error getting inventory analytics:', error);
+      return [];
+    }
   }
 } 

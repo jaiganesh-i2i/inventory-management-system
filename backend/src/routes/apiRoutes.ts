@@ -8,6 +8,7 @@ import warehouseRoutes from './warehouseRoutes';
 import transactionRoutes from './transactionRoutes';
 import alertRoutes from './alertRoutes';
 import dashboardRoutes from './dashboardRoutes';
+import analyticsRoutes from './analyticsRoutes';
 
 const router = Router();
 const API_VERSION = '/v1';
@@ -27,7 +28,8 @@ router.get('/', (req, res) => {
       warehouses: `${API_VERSION}/warehouses`,
       transactions: `${API_VERSION}/transactions`,
       alerts: `${API_VERSION}/alerts`,
-      dashboard: `${API_VERSION}/dashboard`
+      dashboard: `${API_VERSION}/dashboard`,
+      analytics: `${API_VERSION}/analytics`
     },
     documentation: 'API documentation will be available here'
   });
@@ -48,5 +50,6 @@ router.use(`${API_VERSION}/warehouses`, warehouseRoutes);
 router.use(`${API_VERSION}/transactions`, transactionRoutes);
 router.use(`${API_VERSION}/alerts`, alertRoutes);
 router.use(`${API_VERSION}/dashboard`, dashboardRoutes);
+router.use(`${API_VERSION}/analytics`, analyticsRoutes);
 
 export default router; 

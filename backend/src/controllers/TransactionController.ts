@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { InventoryModel } from '../models/InventoryModel';
 import { logger } from '../utils/logger';
 import { safeParseInt } from '../utils/helpers';
+import { query } from '../config/database';
 
 export interface TransactionInput {
   inventoryId: number;
@@ -296,6 +297,144 @@ export class TransactionController {
       });
     } catch (error) {
       logger.error('Error getting warehouse transactions:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Internal server error'
+      });
+    }
+  }
+
+  /**
+   * Get all transactions with pagination
+   * GET /api/transactions
+   */
+  static async getAllTransactions(req: Request, res: Response): Promise<void> {
+    try {
+      if (!req.user) {
+        res.status(401).json({
+          success: false,
+          error: 'Authentication required'
+        });
+        return;
+      }
+
+      const page = safeParseInt(req.query.page as string) || 1;
+      const limit = safeParseInt(req.query.limit as string) || 10;
+      const offset = (page - 1) * limit;
+      const type = req.query.type as string;
+      const warehouseId = req.query.warehouseId ? safeParseInt(req.query.warehouseId as string) : undefined;
+      const startDate = req.query.startDate as string;
+      const endDate = req.query.endDate as string;
+
+      // Build WHERE clause
+      let whereConditions = [];
+      let queryParams = [];
+      let paramIndex = 1;
+
+             if (type) {
+         whereConditions.push(`t.transaction_type = $${paramIndex}`);
+         queryParams.push(type);
+         paramIndex++;
+       }
+
+       if (warehouseId) {
+         whereConditions.push(`t.warehouse_id = $${paramIndex}`);
+         queryParams.push(warehouseId);
+         paramIndex++;
+       }
+
+      if (startDate) {
+        whereConditions.push(`t.created_at >= $${paramIndex}`);
+        queryParams.push(startDate);
+        paramIndex++;
+      }
+
+      if (endDate) {
+        whereConditions.push(`t.created_at <= $${paramIndex}`);
+        queryParams.push(endDate);
+        paramIndex++;
+      }
+
+      const whereClause = whereConditions.length > 0 ? `WHERE ${whereConditions.join(' AND ')}` : '';
+
+             // Get total count
+       const countQuery = `
+         SELECT COUNT(*) as total
+         FROM inventory_transactions t
+         JOIN inventory i ON t.product_id = i.product_id AND t.warehouse_id = i.warehouse_id
+         JOIN products p ON t.product_id = p.id
+         JOIN warehouses w ON t.warehouse_id = w.id
+         ${whereClause}
+       `;
+
+      const countResult = await query(countQuery, queryParams);
+      const total = parseInt(countResult.rows[0].total);
+
+             // Get transactions with pagination
+       const transactionsQuery = `
+         SELECT 
+           t.id,
+           t.product_id,
+           t.warehouse_id,
+           t.transaction_type as type,
+           t.quantity,
+           t.reference_type as reason,
+           t.reference_id as reference,
+           t.notes,
+           t.created_at,
+           t.created_at as updated_at,
+           p.name as product_name,
+           p.sku as product_sku,
+           w.name as warehouse_name,
+           i.quantity as current_stock
+         FROM inventory_transactions t
+         JOIN inventory i ON t.product_id = i.product_id AND t.warehouse_id = i.warehouse_id
+         JOIN products p ON t.product_id = p.id
+         JOIN warehouses w ON t.warehouse_id = w.id
+         ${whereClause}
+         ORDER BY t.created_at DESC
+         LIMIT $${paramIndex} OFFSET $${paramIndex + 1}
+       `;
+
+      queryParams.push(limit, offset);
+      const transactionsResult = await query(transactionsQuery, queryParams);
+
+             const transactions = transactionsResult.rows.map(row => ({
+         id: row.id,
+         inventoryId: row.product_id, // Using product_id as inventoryId for compatibility
+         type: row.type,
+         quantity: row.quantity,
+         reason: row.reason,
+         reference: row.reference,
+         notes: row.notes,
+         createdAt: row.created_at,
+         updatedAt: row.updated_at,
+         product: {
+           name: row.product_name,
+           sku: row.product_sku
+         },
+         warehouse: {
+           name: row.warehouse_name
+         },
+         currentStock: row.current_stock
+       }));
+
+      res.status(200).json({
+        success: true,
+        data: {
+          transactions,
+          pagination: {
+            page,
+            limit,
+            total,
+            totalPages: Math.ceil(total / limit),
+            hasNext: page < Math.ceil(total / limit),
+            hasPrev: page > 1
+          }
+        }
+      });
+    } catch (error) {
+      logger.error('Error getting all transactions:', error);
       res.status(500).json({
         success: false,
         error: 'Internal server error'

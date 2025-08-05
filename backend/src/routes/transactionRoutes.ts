@@ -5,6 +5,7 @@ import { authenticateToken, requireManagerOrAdmin } from '../middleware/auth';
 const router = Router();
 
 // All transaction routes require authentication and manager/admin permissions
+router.get('/', authenticateToken, TransactionController.getAllTransactions);
 router.post('/', authenticateToken, requireManagerOrAdmin, TransactionController.createTransaction);
 router.get('/inventory/:inventoryId', authenticateToken, TransactionController.getInventoryTransactions);
 router.get('/warehouse/:warehouseId', authenticateToken, TransactionController.getWarehouseTransactions);

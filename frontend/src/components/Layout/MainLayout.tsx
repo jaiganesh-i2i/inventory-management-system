@@ -317,12 +317,15 @@ export default function MainLayout({ children }: MainLayoutProps) {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
+          display: 'flex',
+          flexDirection: 'column',
         }}
       >
         <Toolbar />
-        {children}
+        <Box sx={{ flex: 1, p: 3 }}>
+          {children}
+        </Box>
       </Box>
     </Box>
   );

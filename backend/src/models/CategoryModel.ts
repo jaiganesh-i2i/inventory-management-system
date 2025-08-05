@@ -249,26 +249,63 @@ export class CategoryModel {
   }
 
   /**
-   * Get category hierarchy (parent -> child relationships)
+   * Get category hierarchy with levels
    */
   static async getCategoryHierarchy(): Promise<{ id: number; name: string; parent_id?: number; level: number }[]> {
     const result = await query(
       `WITH RECURSIVE category_tree AS (
-         SELECT id, name, parent_id, 0 as level
-         FROM categories
-         WHERE parent_id IS NULL AND is_active = true
-         
-         UNION ALL
-         
-         SELECT c.id, c.name, c.parent_id, ct.level + 1
-         FROM categories c
-         JOIN category_tree ct ON c.parent_id = ct.id
-         WHERE c.is_active = true
-       )
-       SELECT * FROM category_tree
-       ORDER BY level, name`
+        SELECT id, name, parent_id, 0 as level
+        FROM categories
+        WHERE parent_id IS NULL
+        
+        UNION ALL
+        
+        SELECT c.id, c.name, c.parent_id, ct.level + 1
+        FROM categories c
+        INNER JOIN category_tree ct ON c.parent_id = ct.id
+      )
+      SELECT * FROM category_tree
+      ORDER BY level, name`
     );
     
     return result.rows;
+  }
+
+  /**
+   * Get category analytics data for dashboard
+   */
+  static async getCategoryAnalytics(): Promise<any[]> {
+    try {
+      const result = await query(`
+        SELECT 
+          c.id,
+          c.name,
+          COUNT(p.id) as product_count,
+          COALESCE(AVG(p.price), 0) as avg_price,
+          COALESCE(SUM(i.quantity), 0) as total_quantity,
+          COALESCE(SUM(i.quantity * p.price), 0) as total_value,
+          CASE 
+            WHEN COUNT(p.id) > 0 THEN 
+              (COUNT(p.id) * 100.0 / (SELECT COUNT(*) FROM products WHERE is_active = true))
+            ELSE 0 
+          END as market_share,
+          CASE 
+            WHEN COUNT(p.id) > 0 THEN 
+              (COALESCE(SUM(i.quantity), 0) * 100.0 / (SELECT COALESCE(SUM(quantity), 0) FROM inventory))
+            ELSE 0 
+          END as growth_rate
+        FROM categories c
+        LEFT JOIN products p ON c.id = p.category_id AND p.is_active = true
+        LEFT JOIN inventory i ON p.id = i.product_id
+        WHERE c.is_active = true
+        GROUP BY c.id, c.name
+        ORDER BY total_value DESC
+      `);
+      
+      return result.rows;
+    } catch (error) {
+      console.error('Error getting category analytics:', error);
+      return [];
+    }
   }
 } 

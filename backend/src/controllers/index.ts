@@ -7,4 +7,5 @@ export { CategoryController } from './CategoryController';
 export { WarehouseController } from './WarehouseController';
 export { TransactionController } from './TransactionController';
 export { AlertController } from './AlertController';
-export { DashboardController } from './DashboardController'; 
+export { DashboardController } from './DashboardController';
+export { AnalyticsController } from './AnalyticsController'; 

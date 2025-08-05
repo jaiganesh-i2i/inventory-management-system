@@ -251,6 +251,16 @@ class ApiService {
   }
 
   // Transaction endpoints
+  async getTransactions(params?: QueryParams): Promise<ApiResponse<PaginatedResponse<Transaction>>> {
+    const response: AxiosResponse<ApiResponse<PaginatedResponse<Transaction>>> = await this.api.get('/api/v1/transactions', { params });
+    return response.data;
+  }
+
+  async getTransaction(id: number): Promise<ApiResponse<Transaction>> {
+    const response: AxiosResponse<ApiResponse<Transaction>> = await this.api.get(`/api/v1/transactions/${id}`);
+    return response.data;
+  }
+
   async createTransaction(transactionData: CreateTransactionInput): Promise<ApiResponse<{ transaction: Transaction; inventory: Inventory }>> {
     const response: AxiosResponse<ApiResponse<{ transaction: Transaction; inventory: Inventory }>> = await this.api.post('/api/v1/transactions', transactionData);
     return response.data;

@@ -70,6 +70,9 @@ export default function TransactionsPage() {
     averageQuantity: 0,
   });
 
+  // Pagination
+  const [totalCount, setTotalCount] = useState(0);
+
   useEffect(() => {
     fetchTransactions();
   }, []);
@@ -106,8 +109,9 @@ export default function TransactionsPage() {
       const response = await apiService.getTransactions(params);
       
       if (response.success && response.data) {
-        setTransactions(response.data);
-        calculateSummaryStats(response.data);
+        setTransactions(response.data.data || []);
+        setTotalCount(response.data.total || 0);
+        calculateSummaryStats(response.data.data || []);
       } else {
         setError(response.error || 'Failed to load transactions');
       }
@@ -423,7 +427,7 @@ export default function TransactionsPage() {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25, 50]}
           component="div"
-          count={-1}
+          count={totalCount}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={(_, newPage) => setPage(newPage)}
